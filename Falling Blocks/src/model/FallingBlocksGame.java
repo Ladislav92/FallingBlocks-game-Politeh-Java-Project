@@ -9,7 +9,7 @@ import static model.Block.setSpeed;
 
 public class FallingBlocksGame {
 
-    private ColorTable colorTable = new ColorTable();
+    public ColorTable colorTable = new ColorTable();
     private Random rand = new Random();
     public List<Block> active = new ArrayList<Block>(); // sve blokove koji su aktivni(padaju) stavlja u listu
     public Block[][] grounded = new Block[10][15]; // blokove koji su na podu smiješta u matricu
@@ -19,10 +19,6 @@ public class FallingBlocksGame {
     private boolean blocksRemoved;
     private Queue<Block> q = new LinkedList<Block>();
     private Set<Block> forRemoval = new HashSet<Block>();
-
-    public FallingBlocksGame(){
-      // startGame();
-    }
 
     public void startGame() {
         initialiseGroud();
@@ -54,7 +50,7 @@ public class FallingBlocksGame {
             }
             //for each in grounded draw block !!!
         }
-    }
+    } // test
     public boolean gameOver() {
         for (int i = 0; i < 10; i++) {
             if (groundHeight[i] == 0) {
@@ -92,6 +88,7 @@ public class FallingBlocksGame {
 
     public boolean isGrounded(Block block) {
         if (block.getPositionY() == groundHeight[block.getPositionX() / 10]) {      // ako je pozicija na Y osi jednaka visini tla
+            block.setBeenGrounded();
             return true;
         } else {
             return false;

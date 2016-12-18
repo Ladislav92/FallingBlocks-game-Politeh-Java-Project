@@ -16,7 +16,7 @@ public class Block {
     public Block(int positionX){
         this.blockID = nextID++;
         this.positionX = positionX; //prihvata random pozicij
-        this.positionY = -100; // stvara blok izvan frejma
+        this.positionY = -50; // stvara blok izvan frejma
         this.speed = 1;
         this.color = Color.BLANK;
     }
@@ -28,6 +28,7 @@ public class Block {
     public static void setSpeed(long score){speed+=((double)score/1000);};
     public long getID(){return blockID;}
     public static long getNextID(){return nextID;}
+    public boolean beenGrounded(){return beenGrounded;}
     public void setBeenGrounded(){
         if(!beenGrounded){
             beenGrounded = true;
