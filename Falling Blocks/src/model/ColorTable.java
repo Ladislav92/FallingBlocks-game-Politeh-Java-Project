@@ -6,7 +6,7 @@ import java.util.Random;
  */
 public class ColorTable {
 
-    Color[] colors = new Color[4];
+    public Color[] colors = new Color[4];
 
     ColorTable(){
         for (int i = 0; i < 4; i++) {

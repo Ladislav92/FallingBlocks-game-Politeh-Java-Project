@@ -33,9 +33,9 @@ public class GameAdapter extends MouseAdapter{
                 block.setColor(board.colorTable.getColor(1));
             }*/
           if(e.getButton() == MouseEvent.BUTTON1)
-            block.setColor(board.colorTable.getColor(1));
+            block.setColor(board.colorTable.getColor(0));
             if(e.getButton() == MouseEvent.BUTTON2)
-                block.setColor(board.colorTable.getColor(0));
+                block.setColor(board.colorTable.getColor(1));
         }
     }
     public boolean blockClicked(MouseEvent e, Block block){

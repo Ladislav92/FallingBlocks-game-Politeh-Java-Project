@@ -1,10 +1,11 @@
 package view;
 
 import controller.GameAdapter;
-import model.Block;
-import model.FallingBlocksGame;
+import model.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
@@ -50,33 +51,54 @@ public class BoardPanel extends JPanel {
         timer.start();
     }
 
+
+        public Color transmuteColor(model.Color color){
+            switch (color){
+                default:
+                case BLANK: return Color.WHITE;
+                case RED:   return Color.RED;
+                case BLUE:  return Color.BLUE;
+                case GREEN: return Color.GREEN;
+            }
+        }
         @Override
         public void paint(Graphics g) {
             super.paint(g);
             Graphics2D g2d = (Graphics2D)g;
             g2d.drawLine(200,0,200,700);
             g2d.drawLine(600,0,600,700);
-            for (Block block : board.active) {
-                //g2d.drawRect(block.getPositionX()*4+200, block.getPositionY()*4, 40, 40);
-                switch (block.getColor()){
-                    case BLANK: g2d.setColor(Color.WHITE);break;
-                    case RED:   g2d.setColor(Color.RED);break;
-                    case BLUE:  g2d.setColor(Color.BLUE);break;
-                    case GREEN: g2d.setColor(Color.GREEN);break;
 
-                }g2d.fillRect(block.getPositionX()*4+200, block.getPositionY()*4, 39, 39);
-                g2d.setColor(Color.black);
+            // nacrtati ColorTable
+            g2d.setColor(Color.black);
+            g2d.drawRect(660, 100, 40, 40);
+            g2d.setColor(transmuteColor(board.colorTable.colors[0]));
+            g2d.fillRect(660, 100, 39, 39);
+
+            g2d.setColor(Color.black);
+            g2d.drawRect(700, 100, 40, 40);
+            g2d.setColor(transmuteColor(board.colorTable.colors[1]));
+            g2d.fillRect(700, 100, 39, 39);
+
+            g2d.setColor(Color.black);
+            g2d.drawRect(660, 140, 40, 40);
+            g2d.setColor(transmuteColor(board.colorTable.colors[2]));
+            g2d.fillRect(660, 140, 39, 39);
+
+            g2d.setColor(Color.black);
+            g2d.drawRect(700, 140, 40, 40);
+            g2d.setColor(transmuteColor(board.colorTable.colors[3]));
+            g2d.fillRect(700, 140, 39, 39);
+
+            for (Block block : board.active) {
+                 g2d.setColor(transmuteColor(block.getColor()));
+                 g2d.fillRect(block.getPositionX()*4+200, block.getPositionY()*4, 39, 39);
+                 g2d.setColor(Color.black);
                  g2d.drawRect(block.getPositionX()*4+200, block.getPositionY()*4, 40, 40);
             }
             for (int k = 0; k < 15; k++) {
                 for (int j = 0; j < 10; j++) {
                     if (board.grounded[j][k] != null) {
-                        switch (board.grounded[j][k].getColor()){
-                            case BLANK: g2d.setColor(Color.WHITE);break;
-                            case RED:   g2d.setColor(Color.RED);break;
-                            case BLUE:  g2d.setColor(Color.BLUE);break;
-                            case GREEN: g2d.setColor(Color.GREEN);break;
-                        }
+                        g2d.setColor(transmuteColor(board.grounded[j][k].getColor()));
                         g2d.fillRect(board.grounded[j][k].getPositionX()*4+200, board.grounded[j][k].getPositionY()*4, 39, 39);
                         g2d.setColor(Color.black);
                         g2d.drawRect(board.grounded[j][k].getPositionX()*4+200, board.grounded[j][k].getPositionY()*4, 40, 40);
