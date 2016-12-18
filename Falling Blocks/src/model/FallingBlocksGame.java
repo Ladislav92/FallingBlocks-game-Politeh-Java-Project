@@ -9,9 +9,10 @@ import static model.Block.setSpeed;
 
 public class FallingBlocksGame {
 
+    private ColorTable colorTable = new ColorTable();
     private Random rand = new Random();
     public List<Block> active = new ArrayList<Block>(); // sve blokove koji su aktivni(padaju) stavlja u listu
-    private Block[][] grounded = new Block[10][15]; // blokove koji su na podu smiješta u matricu
+    public Block[][] grounded = new Block[10][15]; // blokove koji su na podu smiješta u matricu
     private int[] groundHeight = new int[10]; // podešava visinu poda, jednostavni collision
     private long score;
     private boolean scored;
@@ -19,6 +20,41 @@ public class FallingBlocksGame {
     private Queue<Block> q = new LinkedList<Block>();
     private Set<Block> forRemoval = new HashSet<Block>();
 
+    public FallingBlocksGame(){
+      // startGame();
+    }
+
+    public void startGame() {
+        initialiseGroud();
+        spawnBlock();
+        // draw Block !
+        while (!gameOver()) {
+            for (int i = 0; i < active.size(); i++) {
+                Block block = active.get(i);
+                if (isGrounded(block)) {
+                    System.out.println("");
+                    System.out.println("Grounding block on pos:");
+                    setGround(block.getPositionX(), block.getPositionY(), block, -10);  // zaustavlja ga, stavlja u matricu i                                                // podiže tlo
+                    active.remove(block); // remove i ?
+                    if (block.getID() == Block.getNextID() - 1) {                           //ako je zadnji koji se pojavio
+                        spawnBlock();                                                   // pojavi novi
+                    }
+
+                    printGroundedArray("Before CheckMatch");
+
+                    System.out.println("Active size: " + active.size());
+                    if (active.size() < 2) {
+                        checkMatch(block);
+                    }
+                    printGroundedArray("After CheckMatch");
+
+                } else {
+                    block.fall();                                                       // ako nije na tlu, pada
+                }
+            }
+            //for each in grounded draw block !!!
+        }
+    }
     public boolean gameOver() {
         for (int i = 0; i < 10; i++) {
             if (groundHeight[i] == 0) {
@@ -43,10 +79,14 @@ public class FallingBlocksGame {
         int posX = x / 10;
         int posY = y / 10;
         System.out.println("posX and posY: " + posX + " " + posY);
+       // block.setBeenGrounded();
         grounded[posX][posY] = block;
-        groundHeight[posX] += hight;
 
-        //CONSOLE TeST
+        if(grounded[posX][posY]!=null)
+        grounded[posX][posY].setBeenGrounded();
+
+        groundHeight[posX] += hight;
+        System.out.println(groundHeight[posX]);
 
     }
 
@@ -126,7 +166,7 @@ public class FallingBlocksGame {
             setGround(b.getPositionX(), b.getPositionY(), null, 10);
             for (int i = b.getPositionY() / 10; i >= 0; i--) {
                 if (grounded[b.getPositionX() / 10][i] != null) {
-                    Block nad_b = grounded[b.getPositionX() / 10][i];
+                    Block nad_b = grounded[b.getPositionX() / 10 ][i];
                     forRemoval.remove(nad_b);
                     active.add(nad_b);
                     setGround(nad_b.getPositionX(), nad_b.getPositionY(), null, 10);
@@ -154,4 +194,8 @@ public class FallingBlocksGame {
         }
     }
 
+    public static void main(String[] args) {
+        FallingBlocksGame game = new FallingBlocksGame();
+        game.startGame();
+    }
 }

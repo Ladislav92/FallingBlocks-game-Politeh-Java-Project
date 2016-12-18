@@ -11,10 +11,14 @@ import model.FallingBlocksGame;
 public class GameController {
     FallingBlocksGame game = new FallingBlocksGame();
 
+    GameController(FallingBlocksGame game){
+        this.game = game;
+    }
+
     public void startGame() {
         game.initialiseGroud();
         game.spawnBlock();
-        // draw Block !
+
         while (!game.gameOver()) {
             for (int i = 0; i < game.active.size(); i++) {
                 Block block = game.active.get(i);
