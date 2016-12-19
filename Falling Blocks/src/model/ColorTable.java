@@ -17,7 +17,7 @@ public class ColorTable {
     public Color getColor(int i){
         Color color = colors[i];
         colors[i] = colors[i+2];
-        colors[2] = generateColor();
+        colors[i+2] = generateColor();
         return color;
     }
 

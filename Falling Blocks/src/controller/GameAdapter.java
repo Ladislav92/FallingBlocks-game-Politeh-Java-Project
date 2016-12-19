@@ -3,7 +3,6 @@ package controller;
 import model.Block;
 import model.FallingBlocksGame;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,29 +20,45 @@ public class GameAdapter extends MouseAdapter{
         this.board = board;
         this.container = container;
     }
-
     @Override
-    public void mouseClicked(MouseEvent e) {
-
+    public void mousePressed(MouseEvent e){
         for(Block block:board.active){
-          /*  if (e.getButton() == MouseEvent.BUTTON1 && blockClicked(e, block) && !block.beenGrounded()){
+            if(e.getButton() == MouseEvent.BUTTON1 &&
+                e.getX() >= block.getPositionX()*4+200 &&
+                e.getX() <= block.getPositionX()*4 + 240 &&
+                e.getY() >= block.getPositionY()*4 &&
+                e.getY() <= block.getPositionY()*4 + 40 &&
+                    !block.beenGrounded()) {
                 block.setColor(board.colorTable.getColor(0));
             }
-            if (e.getButton() == MouseEvent.BUTTON2 && blockClicked(e, block) && !block.beenGrounded()){
-                block.setColor(board.colorTable.getColor(1));
-            }*/
-          if(e.getButton() == MouseEvent.BUTTON1)
-            block.setColor(board.colorTable.getColor(0));
-            if(e.getButton() == MouseEvent.BUTTON2)
-                block.setColor(board.colorTable.getColor(1));
-        }
-    }
-    public boolean blockClicked(MouseEvent e, Block block){
+            if(e.getButton() == MouseEvent.BUTTON3 &&
+                    e.getX() >= block.getPositionX()*4+200 &&
+                    e.getX() <= block.getPositionX()*4 + 240 &&
+                    e.getY() >= block.getPositionY()*4 &&
+                    e.getY() <= block.getPositionY()*4 + 40 &&
+                    !block.beenGrounded()) {
 
-        if (e.getX() >= block.getPositionX()*4+200 && e.getX() <= block.getPositionX()*4+240
-                && e.getY() >= block.getPositionY()*4 && e.getY() <= block.getPositionY()*4+40){
-            return true;
+                block.setColor(board.colorTable.getColor(1));
+            }
         }
-        return false;
+
     }
+    public void gameFlow(){
+            for (int i = 0; i < board.active.size(); i++) {
+                Block block = board.active.get(i);
+                if (board.isGrounded(block)) {
+                    board.setGround(block.getPositionX(), block.getPositionY(), block, -10);  // zaustavlja ga, stavlja u matricu i                                                // podiže tlo
+                    board.active.remove(block); // remove i ?
+                    if (block.getID() == Block.getNextID() - 1) {                           //ako je zadnji koji se pojavio
+                        board.spawnBlock();                                                   // pojavi novi
+                    }
+                    if (board.active.size() < 2) {
+                        board.checkMatch(block);
+                    }
+                }else {
+                    block.fall();                                                       // ako nije na tlu, pada
+                }
+            }
+        }
 }
+

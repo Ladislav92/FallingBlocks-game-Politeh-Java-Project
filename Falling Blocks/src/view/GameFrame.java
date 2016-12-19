@@ -7,7 +7,7 @@ import javax.swing.*;
  * Created by Ladislav on 12/15/2016.
  */
 public class GameFrame extends JFrame {
-    BoardPanel boardPanel;
+    private BoardPanel boardPanel;
     public GameFrame(){
         super("Falling Blox");
         boardPanel = new BoardPanel(new FallingBlocksGame());

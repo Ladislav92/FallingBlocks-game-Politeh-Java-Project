@@ -13,33 +13,31 @@ public class Block {
     private boolean isColored = false;
     private boolean beenGrounded = false;
 
-    public Block(int positionX){
+    Block(int positionX){
         this.blockID = nextID++;
         this.positionX = positionX; //prihvata random pozicij
         this.positionY = -50; // stvara blok izvan frejma
-        this.speed = 1;
         this.color = Color.BLANK;
+        speed = 2;
     }
 
-    public Block getBlock(){return this;};
     public int getPositionX(){return this.positionX;}
     public int getPositionY(){return this.positionY;}
-    public Color getColor(){return this.color;};
-    public static void setSpeed(long score){speed+=((double)score/1000);};
+    public Color getColor(){return this.color;}
     public long getID(){return blockID;}
     public static long getNextID(){return nextID;}
     public boolean beenGrounded(){return beenGrounded;}
-    public void setBeenGrounded(){
-        if(!beenGrounded){
-            beenGrounded = true;
-        }
-    } // Još malo razmisliti o funkciji, može biti bolje rješenje
     public void setColor(Color color){
         if(!isColored){
             this.isColored = true;
             this.color =  color;
         }
     }
-    public void fall(){positionY+=speed;}   // postaviti u FallingBlocksGame
-
+    void setBeenGrounded(){
+        if(!beenGrounded){
+            beenGrounded = true;
+        }
+    }
+    public void fall(){positionY+=speed;}
+    //static void setSpeed(long score){speed+=((double)score/1000);}
 }
