@@ -33,6 +33,7 @@ public class Block {
             this.color =  color;
         }
     }
+    public boolean isColored(){return isColored;}
     void setBeenGrounded(){
         if(!beenGrounded){
             beenGrounded = true;

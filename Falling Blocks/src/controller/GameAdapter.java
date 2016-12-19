@@ -29,7 +29,9 @@ public class GameAdapter extends MouseAdapter{
                 e.getY() >= block.getPositionY()*4 &&
                 e.getY() <= block.getPositionY()*4 + 40 &&
                     !block.beenGrounded()) {
-                block.setColor(board.colorTable.getColor(0));
+                if (!block.isColored()) {
+                    block.setColor(board.colorTable.getColor(0));
+                }
             }
             if(e.getButton() == MouseEvent.BUTTON3 &&
                     e.getX() >= block.getPositionX()*4+200 &&
@@ -37,8 +39,9 @@ public class GameAdapter extends MouseAdapter{
                     e.getY() >= block.getPositionY()*4 &&
                     e.getY() <= block.getPositionY()*4 + 40 &&
                     !block.beenGrounded()) {
-
-                block.setColor(board.colorTable.getColor(1));
+                if (!block.isColored()) {
+                    block.setColor(board.colorTable.getColor(1));
+                }
             }
         }
 
