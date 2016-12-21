@@ -17,7 +17,6 @@ public class GameFrame extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new GameFrame());
      }

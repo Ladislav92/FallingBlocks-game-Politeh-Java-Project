@@ -18,7 +18,7 @@ public class Block {
         this.positionX = positionX; //prihvata random pozicij
         this.positionY = -50; // stvara blok izvan frejma
         this.color = Color.BLANK;
-        speed = 2;
+        speed = 1;
     }
 
     public int getPositionX(){return this.positionX;}

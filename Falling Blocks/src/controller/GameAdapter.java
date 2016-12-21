@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static view.BoardPanel.getBlockSize;
+import static view.BoardPanel.getFirstLineIndent;
+import static view.BoardPanel.getBlockPosCorrection;
+
 /**
  * Created by Ladislav on 12/15/2016.
  * Implements mouse listener and makes posible to paint block on click
@@ -22,46 +26,32 @@ public class GameAdapter extends MouseAdapter{
     }
     @Override
     public void mousePressed(MouseEvent e){
-        for(Block block:board.active){
+        for(Block block:board.getActive()){
             if(e.getButton() == MouseEvent.BUTTON1 &&
-                e.getX() >= block.getPositionX()*4+200 &&
-                e.getX() <= block.getPositionX()*4 + 240 &&
-                e.getY() >= block.getPositionY()*4 &&
-                e.getY() <= block.getPositionY()*4 + 40 &&
+                e.getX() >= block.getPositionX() * getBlockPosCorrection() + getFirstLineIndent() &&
+                e.getX() <= block.getPositionX() * getBlockPosCorrection() + getFirstLineIndent() + getBlockSize() &&
+                e.getY() >= block.getPositionY() * getBlockPosCorrection() &&
+                e.getY() <= block.getPositionY() * getBlockPosCorrection() + getBlockSize() &&
                     !block.beenGrounded()) {
                 if (!block.isColored()) {
-                    block.setColor(board.colorTable.getColor(0));
+                    block.setColor(board.getColorTable().pollLeftColor());
                 }
             }
-            if(e.getButton() == MouseEvent.BUTTON3 &&
-                    e.getX() >= block.getPositionX()*4+200 &&
-                    e.getX() <= block.getPositionX()*4 + 240 &&
-                    e.getY() >= block.getPositionY()*4 &&
-                    e.getY() <= block.getPositionY()*4 + 40 &&
-                    !block.beenGrounded()) {
-                if (!block.isColored()) {
-                    block.setColor(board.colorTable.getColor(1));
+            if(e.getButton() == MouseEvent.BUTTON3  &&
+                e.getX() >= block.getPositionX() * getBlockPosCorrection() +  getFirstLineIndent() &&
+                e.getX() <= block.getPositionX() * getBlockPosCorrection() + getFirstLineIndent()+getBlockSize() &&
+                e.getY() >= block.getPositionY() * getBlockPosCorrection() &&
+                e.getY() <= block.getPositionY() * getBlockPosCorrection() + getBlockSize()&&
+                !block.beenGrounded()) {
+            if (!block.isColored()) {
+                    block.setColor(board.getColorTable().pollRightColor());
                 }
             }
         }
-
     }
     public void gameFlow(){
-            for (int i = 0; i < board.active.size(); i++) {
-                Block block = board.active.get(i);
-                if (board.isGrounded(block)) {
-                    board.setGround(block.getPositionX(), block.getPositionY(), block, -10);  // zaustavlja ga, stavlja u matricu i                                                // podiže tlo
-                    board.active.remove(block); // remove i ?
-                    if (block.getID() == Block.getNextID() - 1) {                           //ako je zadnji koji se pojavio
-                        board.spawnBlock();                                                   // pojavi novi
-                    }
-                    if (board.active.size() < 2) {
-                        board.checkMatch(block);
-                    }
-                }else {
-                    block.fall();                                                       // ako nije na tlu, pada
-                }
-            }
-        }
+        board.makeTurn();
+    }
 }
+
 
