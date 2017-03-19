@@ -6,14 +6,21 @@ package model;
 public class Block {
 
     private static double speed;
-    private int positionX, positionY;
-    private final long blockID;
     private static long nextID = 0;
+
+    private final long blockID;
+    private int positionX, positionY;
+    /* better for reading
+    private int positionX;
+    private int positionY;
+     */
     private Color color;
     private boolean isColored = false;
     private boolean beenGrounded = false;
 
-    Block(int positionX){
+    // maybe model doesn't want to know about GUI (positions)
+    // maybe positionY and speed are params ?
+    public Block(int positionX) {
         this.blockID = nextID++;
         this.positionX = positionX; //prihvata random pozicij
         this.positionY = -50; // stvara blok izvan frejma
@@ -21,24 +28,57 @@ public class Block {
         speed = 1;
     }
 
-    public int getPositionX(){return this.positionX;}
-    public int getPositionY(){return this.positionY;}
-    public Color getColor(){return this.color;}
-    public long getID(){return blockID;}
-    public static long getNextID(){return nextID;}
-    public boolean beenGrounded(){return beenGrounded;}
-    public void setColor(Color color){
-        if(!isColored){
+    public int getPositionX() {
+        return this.positionX;
+    }
+
+    public int getPositionY() {
+        return this.positionY;
+    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public long getID() {
+        return blockID;
+    }
+
+    public boolean beenGrounded() {
+        return beenGrounded;
+    }
+
+    public void setColor(Color color) {
+        // why not just assignments?
+        if (!isColored) {
             this.isColored = true;
-            this.color =  color;
+            this.color = color;
         }
     }
-    public boolean isColored(){return isColored;}
-    void setBeenGrounded(){
-        if(!beenGrounded){
+
+    public boolean isColored() {
+        return isColored;
+    }
+
+    void setBeenGrounded() {
+        // why not just (1)
+        if (!beenGrounded) {
             beenGrounded = true;
         }
     }
-    public void fall(){positionY+=speed;}
+
+    // (1)
+    public void setBeenGrounded(boolean beenGrounded) {
+        this.beenGrounded = beenGrounded;
+    }
+
+    public void fall() {
+        positionY += speed;
+    }
+
+    public static long getNextID() {
+        return nextID;
+    }
+    // remove if not needed
     //static void setSpeed(long score){speed+=((double)score/1000);}
 }
